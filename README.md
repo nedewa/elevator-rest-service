@@ -10,7 +10,7 @@
 > ./mvnw 
 > ./mvnw spring-boot:run
 ```
-## Tip: 
+* Fix the environment issue.
 When you have the similar issue: ```Error: Could not find or load main class org.apache.maven.wrapper.MavenWrapperMain```  
 Please run the command: ```mvn -N io.takari:maven:wrapper```
 You can refer the following blog for details, I can`t use VPN today, 
