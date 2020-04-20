@@ -9,13 +9,14 @@
 > cd elevator-rest-service/
 > ./mvnw 
 > ./mvnw spring-boot:run
-Tip: When run mvnw and see the similar issue: 
-Error: Could not find or load main class org.apache.maven.wrapper.MavenWrapperMain</br>
-Please run the command: mvn -N io.takari:maven:wrapper
+```
+## Tip: 
+When run mvnw and see the similar issue: ```Error: Could not find or load main class org.apache.maven.wrapper.MavenWrapperMain```
+Please run the command: ```mvn -N io.takari:maven:wrapper```
 You can refer the following blog for details, I can`t use VPN today, 
 so can`t not search with Google. But this Chinese blog can help to fix it as well.
 https://blog.csdn.net/blueheart20/article/details/51601441?utm_source=blogxgwz0
-```
+
 * You can also import the code straight into your IDE:
 ```
 Spring Tool Suite (STS)
