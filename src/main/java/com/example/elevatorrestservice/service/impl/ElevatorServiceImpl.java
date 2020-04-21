@@ -24,12 +24,14 @@ public class ElevatorServiceImpl implements ElevatorService {
 	public void init() {
         this.elevatorGroup = new Elevator[TOTAL_ELEVATORS];
         this.floors = new Floor[TOTAL_FLOORS];
-
-        this.elevatorScheduler = new MultiElevatorScheduler(this.elevatorGroup, this.floors);
         
         this.createFloors();
         this.createElevators();
-	}
+        
+        this.elevatorScheduler = new MultiElevatorScheduler(this.elevatorGroup, this.floors);
+        
+		new Thread(this.elevatorScheduler).start(); // Activates the GroupElevatorController to scan the floors array
+    }
 	
     /**
      * Creates Elevator objects in the elevatorGroup array.
@@ -37,7 +39,7 @@ public class ElevatorServiceImpl implements ElevatorService {
     private void createElevators() {
         for (int i = 0; i < TOTAL_ELEVATORS; ++i) {
             this.elevatorGroup[i] = new Elevator(i);
-            this.elevatorGroup[i].setCurrentFloor(0); // 0 means the first floor, the index is start from 0
+            this.elevatorGroup[i].setCurrentFloor(1); // Start from 1
             this.elevatorGroup[i].setDirection(Elevator.DIRECTION.UP);
         }
 
@@ -63,19 +65,15 @@ public class ElevatorServiceImpl implements ElevatorService {
      */
     private void generatePassenger(List<Passenger> passengers) throws InterruptedException {
     	for (Passenger passenger : passengers) {
-    		System.out.print("passenger:" + passenger.getUser() + " start:" + passenger.getStartFloor() + " end:" + passenger.getEndFloor());
+    		System.out.println("passenger:" + passenger.getUser() + " start:" + passenger.getStartFloor() + " end:" + passenger.getEndFloor());
     		floors[passenger.getStartFloor()].generatePassenger(passenger);
     	}       
     }
 
 	@Override
-	public List<ElevatorState> lowCostSchedule(List<Passenger> passengers) {
-		
-		new Thread(this.elevatorScheduler).start(); // Activates the GroupElevatorController to scan the floors array
-		
+	public List<ElevatorState> lowCostSchedule(List<Passenger> passengers) {			
 		try {
 			this.generatePassenger(passengers);
-			Thread.sleep(2000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
