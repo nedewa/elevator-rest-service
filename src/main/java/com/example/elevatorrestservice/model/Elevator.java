@@ -22,13 +22,13 @@ public class Elevator {
 	private List<PassengerRequest> getOutRequests; // Holds get out requests
 	private PriorityBlockingQueue<PassengerRequest> sequence;
 
-	private int ID;
+	private int ID; // ID start from 1
 	private int currentFloor;
 	private DIRECTION direction; // 0 - Down, 1- Up
 	private boolean idle = true;
 
 	public Elevator(int ID) {
-		this.ID = ID;
+		this.ID = ID + 1; // ID start from 1
 		this.getInRequests = new CopyOnWriteArrayList<>();
 		this.getOutRequests = new CopyOnWriteArrayList<>();
 		this.sequence = new PriorityBlockingQueue<>(100, new Comparator<PassengerRequest>() {
@@ -310,20 +310,19 @@ public class Elevator {
 				}
 
 				// Simulate elevator go through the floors of the building
-				while ((this.currentFloor != tempRequest.getFloor()) && (this.currentFloor >= 0)
-						&& (this.currentFloor <= (MAX_FLOOR - 1))) {
+				while ((this.currentFloor != tempRequest.getFloor()) && (this.currentFloor >= 1) && (this.currentFloor <= MAX_FLOOR)) {
 
 					this.idle = false;
 
 					// Direction is up
-					if (this.direction == DIRECTION.UP && this.currentFloor != (MAX_FLOOR - 1)) {
+					if (this.direction == DIRECTION.UP && this.currentFloor != (MAX_FLOOR)) {
 
 						this.currentFloor += 1;
 						Thread.sleep(SPEED * 1000);
 
 						checkSequence(tempRequest);
 
-					} else if (this.direction == DIRECTION.DOWN && this.currentFloor != 0) {
+					} else if (this.direction == DIRECTION.DOWN && this.currentFloor != 1) {
 
 						this.currentFloor -= 1;
 						Thread.sleep(SPEED * 1000);
@@ -339,20 +338,6 @@ public class Elevator {
 
 			this.idle = true;
 		}
-	}
-
-	/**
-	 * Breaks apart the Passenger object. Puts Passenger.getInRequest to the
-	 * getInRequests array. Puts Passenger.getOutRequest to the getOutRequests
-	 * array.
-	 */
-	public void assignPassenger(Passenger temp) throws InterruptedException {
-
-		PassengerRequest getInRequest = temp.getInRequest(); 
-		PassengerRequest getOutRequest = temp.getOutRequest(); 
-
-		this.getInRequests.add(getInRequest);
-		this.getOutRequests.add(getOutRequest);
 	}
 
 	/**
@@ -390,11 +375,25 @@ public class Elevator {
 		}
 	}
 	
+	/**
+	 * Breaks apart the Passenger object. Puts Passenger.getInRequest to the
+	 * getInRequests array. Puts Passenger.getOutRequest to the getOutRequests
+	 * array.
+	 */
+	public void assignPassenger(Passenger temp) throws InterruptedException {
+
+		PassengerRequest getInRequest = temp.getInRequest(); 
+		PassengerRequest getOutRequest = temp.getOutRequest(); 
+
+		this.getInRequests.add(getInRequest);
+		this.getOutRequests.add(getOutRequest);
+	}
+	
 	public void reset() {
 		this.getInRequests.clear();
 		this.getOutRequests.clear();
 		this.getSequence().clear();
-		this.currentFloor = 0;
+		this.currentFloor = 1;
 	}
 
 	public void setCurrentFloor(int currentFloor) {
@@ -422,6 +421,6 @@ public class Elevator {
 	}
 
 	public int getID() {
-		return ID;
+		return this.ID;
 	}
 }
