@@ -8,8 +8,8 @@ public class Floor {
 	private int ID;
 
 	public Floor(int ID) {
+		this.ID = ID + 1;
 		this.passengerRequests = new LinkedBlockingQueue<>();
-		this.ID = ID;
 	}
 
 	public LinkedBlockingQueue<Passenger> getPassengerRequests() {
