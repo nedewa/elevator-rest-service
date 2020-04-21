@@ -84,14 +84,14 @@ public class MultiElevatorScheduler implements Runnable {
 	
 	private void displayElevators(Elevator[] elevatorGroup) {
 		for (int i = 0; i < elevatorGroup.length; i++) {
-			for (int j = 0; j < Elevator.MAX_FLOOR; j++) {
+			for (int j = 1; j <= Elevator.MAX_FLOOR; j++) {
 				if (j == elevatorGroup[i].getCurrentFloor()) {
 					System.out.print(" == ");
 				} else {
 					System.out.printf(" %d ", j);
 				}
 			}
-			System.out.println("---Elevator[" + i + "]" + elevatorGroup[i].getDirection());
+			System.out.println("---Elevator[" + elevatorGroup[i].getID() + "] " + elevatorGroup[i].getDirection());
 		}
 		System.out.println();
 	}
@@ -160,12 +160,12 @@ public class MultiElevatorScheduler implements Runnable {
 				
 				if (elevatorCost < cost) {
 					cost = elevatorCost;
-					pick = elevator.getID();
+					pick = elevator.getID() - 1;
 				}
 			}
 			
 			 // Check if thresholds is not reached
-            if (elevatorGroup[pick].getSequence().size() <= Elevator.CAPACITY) {
+            if (elevatorGroup[pick].getSequence().size() < Elevator.CAPACITY) {
                 flag = false;
             }
 		}
