@@ -66,7 +66,7 @@ public class ElevatorServiceImpl implements ElevatorService {
     private void generatePassenger(List<Passenger> passengers) throws InterruptedException {
     	for (Passenger passenger : passengers) {
     		System.out.println("passenger:" + passenger.getUser() + " start:" + passenger.getStartFloor() + " end:" + passenger.getEndFloor());
-    		floors[passenger.getStartFloor()].generatePassenger(passenger);
+    		floors[passenger.getStartFloor() - 1].generatePassenger(passenger);
     	}       
     }
 
